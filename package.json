@@ -1,0 +1,28 @@
+{
+  "name": "hack.chatbouncer",
+  "version": "1.0.0",
+  "description": "Bot for Hack.Chat",
+  "main": "./src/main.js",
+  "dependencies": {
+    "request": "^2.60.0",
+    "ws": "^0.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M4GNV5/Hack.ChatBouncer"
+  },
+  "keywords": [
+    "chat",
+    "bot"
+  ],
+  "author": {
+    "name": "Jakob Löw",
+    "email": "eragonjml@googlemail.com",
+    "url": "https://github.com/M4GNV5"
+  },
+  "license": "4-clause BSD",
+  "bugs": {
+    "url": "https://github.com/M4GNV5/Hack.ChatBouncer/issues"
+  },
+  "homepage": "https://github.com/M4GNV5/Hack.ChatBouncer"
+}
