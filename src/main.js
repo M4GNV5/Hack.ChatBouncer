@@ -8,11 +8,16 @@ var received = {};
 
 for(var i = 0; i < config.channel.length; i++)
 {
+	_addChannel(i);
+}
+
+function _addChannel(i)
+{
 	var name = config.channel[i];
 	setTimeout(function() //rate limit <3
 	{
 		channel[name] = addChannel(name);
-	}, 5000 * i);
+	}, 5000 * i + 1);
 }
 
 function addChannel(channel)
@@ -26,6 +31,7 @@ function addChannel(channel)
 	{
 		var message = {cmd: "join", channel: channel, nick: config.nick};
 		bouncer.ws.send(JSON.stringify(message));
+		console.log("Connected to ?" + channel);
 	});
 
 	bouncer.ws.on("message", function(data)
@@ -55,7 +61,7 @@ server.on("connection", function(socket)
 
 				if(!_channel)
 				{
-					socket.send(JSON.stringify({cmd: "warn", text: "Bouncer not connected to that channel"}));
+					socket.send(JSON.stringify({cmd: "warn", text: "Bouncer not connected to channel ?" + _data.channel}));
 					return;
 				}
 				if(_channel.connected)
@@ -78,6 +84,8 @@ server.on("connection", function(socket)
 				});
 
 				socket.channel = _channel;
+
+				console.log(socket.upgradeReq.connection.remoteAddress + " bounced in ?" + _data.channel);
 			}
 		}
 		catch(e)
@@ -108,4 +116,4 @@ http.createServer(function (req, res)
 
 		res.end(body);
 	});
-}).listen(config.httpPort, '127.0.0.1');
+}).listen(config.httpPort, '0.0.0.0');
