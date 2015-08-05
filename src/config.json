@@ -2,9 +2,11 @@
     "nick": "Bouncer",
     "password": "hunter2",
 
-    "channel": ["programming", "math"],
+    "channel": ["botDev"],
     "url": "wss://hack.chat/chat-ws:22",
     "server": "http://hack.chat",
 
-    "httpPort": 1337
+    "httpPort": 1337,
+    "redirect": true,
+    "cacheCount": 30
 }
