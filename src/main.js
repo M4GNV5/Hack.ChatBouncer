@@ -55,8 +55,14 @@ server.on("connection", function(socket)
 		try
 		{
 			var _data = JSON.parse(data);
-			if(_data.cmd == "join" && _data.nick == config.password)
+			if(_data.cmd == "join")
 			{
+				if(_data.nick != config.password)
+				{
+					socket.send(JSON.stringify({cmd: "warn", text: "Invalid password! Enter your password as username!"}));
+					return;
+				}
+
 				var _channel = channel[_data.channel];
 
 				if(!_channel)
@@ -66,7 +72,8 @@ server.on("connection", function(socket)
 				}
 				if(_channel.connected)
 				{
-					socket.send(JSON.stringify({cmd: "warn", text: "Already bouncing that channel"}));
+					var text = _channel.client.upgradeReq.connection.remoteAddress + " is already bouncing that channel";
+					socket.send(JSON.stringify({cmd: "warn", text: text}));
 					return;
 				}
 
