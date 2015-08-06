@@ -31,9 +31,12 @@ module.exports = function(socket, channel, config)
 			}
 			if(_channel.connected)
 			{
-				var text = _channel.client.upgradeReq.connection.remoteAddress + " is already bouncing that channel";
+				var text = _channel.client.upgradeReq.connection.remoteAddress + " was already bouncing that channel!\nOvertaking control...";
 				socket.send(JSON.stringify({cmd: "warn", text: text}));
-				return;
+
+                var text2 = socket.upgradeReq.connection.remoteAddress + " is overtaking this channel!";
+                _channel.client.send(JSON.stringify({cmd: "warn", text: text2}));
+                _channel.client.removeAllListeners("message");
 			}
 
 			_channel.connected = true;
@@ -43,9 +46,6 @@ module.exports = function(socket, channel, config)
 			{
 				socket.send(_channel.received[i]);
 			}
-
-            if(config.cacheCount > 0)
-                _channel.received.splice(config.cacheCount);
 
 			socket.on("message", function(data)
 			{
@@ -64,5 +64,8 @@ module.exports = function(socket, channel, config)
 
 		socket.channel.connected = false;
 		delete socket.channel.client;
+
+        if(config.cacheCount > 0)
+            socket.channel.received.splice(config.cacheCount);
 	});
 };
