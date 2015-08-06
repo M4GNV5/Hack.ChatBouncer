@@ -41,6 +41,7 @@ function setupClient(config, bouncer)
     {
         clearInterval(pingInterval);
 
+		console.log("Disconnected from ?" + bouncer.channel);
         var warn = {cmd: "warn", text: "Bouncer disconnected! Attempting to reconnect..."};
         bouncer.received.push(warn.toString());
         bouncer.ws = new WebSocket(bouncer.ws.url);
