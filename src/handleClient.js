@@ -66,6 +66,6 @@ module.exports = function(socket, channel, config)
 		delete socket.channel.client;
 
         if(config.cacheCount > 0)
-            socket.channel.received.splice(socket.channel.received.length - config.cacheCount);
+            socket.channel.received.splice(0, socket.channel.received.length - config.cacheCount);
 	});
 };
