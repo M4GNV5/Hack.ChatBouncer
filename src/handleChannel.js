@@ -7,6 +7,7 @@ module.exports = function(config, name)
 	bouncer.ws = new WebSocket(config.url);
 	bouncer.received = [];
 	bouncer.connected = false;
+	bouncer.userList = [];
 
     setupClient(config, bouncer);
 
@@ -24,12 +25,27 @@ function setupClient(config, bouncer)
 
 	bouncer.ws.on("message", function(data)
 	{
-		if(bouncer.connected)
+		try
 		{
-			bouncer.client.send(data);
-		}
+			if(bouncer.connected)
+				bouncer.client.send(data);
 
-		bouncer.received.push(data);
+			var _data = JSON.parse(data);
+
+			if(_data.cmd != "onlineSet")
+				bouncer.received.push(data);
+
+			if(_data.cmd == "onlineSet")
+				bouncer.userList = _data.nicks;
+			else if(_data.cmd == "onlineAdd")
+				bouncer.userList.push(_data.nick);
+			else if(_data.cmd == "onlineRemove")
+				bouncer.userList.splice(bouncer.userList.indexOf(_data.nick), 1);
+		}
+		catch(e)
+		{
+			console.log("Error parsing message from server: " + data);
+		}
 	});
 
     var pingInterval = setInterval(function()

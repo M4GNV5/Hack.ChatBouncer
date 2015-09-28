@@ -42,6 +42,8 @@ module.exports = function(socket, channel, config)
 			_channel.connected = true;
 			_channel.client = socket;
 
+            socket.send(JSON.stringify({cmd: "onlineSet", nicks: _channel.userList}));
+
 			for(var i = 0; i < _channel.received.length; i++)
 			{
 				socket.send(_channel.received[i]);
