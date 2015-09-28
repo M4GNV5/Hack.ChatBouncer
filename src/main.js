@@ -14,7 +14,7 @@ for(var i = 0; i < config.channel.length; i++)
 		setTimeout(function() //rate limit <3
 		{
 			channel[name] = addChannel(config, name);
-		}, 5000 * i + 1);
+		}, 20000 * i + 1);
 	})(i);
 }
 
